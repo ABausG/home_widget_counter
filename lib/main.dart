@@ -24,14 +24,17 @@ const _countKey = 'counter';
 Future<int> _increment() async {
   final oldValue = await _value;
   final newValue = oldValue + 1;
-  await HomeWidget.saveWidgetData<int>(_countKey, newValue);
-  await HomeWidget.updateWidget(iOSName: 'CounterWidget');
+  await _sendAndUpdate(newValue);
   return newValue;
 }
 
 Future<void> _clear() async {
-  await HomeWidget.saveWidgetData(_countKey, null);
-  await HomeWidget.updateWidget(iOSName: 'CounterWidget');
+  await _sendAndUpdate(null);
+}
+
+Future<void> _sendAndUpdate([int? value]) async {
+  await HomeWidget.saveWidgetData(_countKey, value);
+  await HomeWidget.updateWidget(iOSName: 'CounterWidget', androidName: 'CounterWidgetProvider');
 }
 
 Future<int> get _value async {
