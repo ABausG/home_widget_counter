@@ -9,7 +9,11 @@ import es.antonborri.home_widget.HomeWidgetBackgroundIntent
 import es.antonborri.home_widget.HomeWidgetProvider
 
 class CounterWidgetProvider : HomeWidgetProvider() {
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray, widgetData: SharedPreferences) {
+    override fun onUpdate(
+            context: Context,
+            appWidgetManager: AppWidgetManager,
+            appWidgetIds: IntArray,
+            widgetData: SharedPreferences) {
         appWidgetIds.forEach { widgetId ->
             val views = RemoteViews(context.packageName, R.layout.counter_widget).apply {
                 val count = widgetData.getInt("counter", 0)

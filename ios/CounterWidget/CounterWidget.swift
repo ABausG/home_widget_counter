@@ -14,7 +14,9 @@ struct Provider: TimelineProvider {
   }
 
   func getSnapshot(in context: Context, completion: @escaping (CounterEntry) -> Void) {
+    // Get the UserDefaults for the AppGroup
     let prefs = UserDefaults(suiteName: "group.es.antonborri.homeWidgetCounter")
+    // Load the current Count
     let entry = CounterEntry(date: Date(), count: prefs?.integer(forKey: "counter") ?? 0)
     completion(entry)
   }
@@ -43,11 +45,13 @@ struct CounterWidgetEntryView: View {
       Text(entry.count.description).font(.title).frame(maxWidth: .infinity, alignment: .center)
       Spacer()
       HStack {
+        // This button is for clearing
         Button(intent: BackgroundIntent(method: "clear")) {
           Image(systemName: "xmark").font(.system(size: 16)).foregroundColor(.red).frame(
             width: 24, height: 24)
         }.buttonStyle(.plain).frame(alignment: .leading)
         Spacer()
+        // This button is for incrementing
         Button(intent: BackgroundIntent(method: "increment")) {
           Image(systemName: "plus").font(.system(size: 16)).foregroundColor(.white)
 
@@ -73,14 +77,13 @@ struct CounterWidget: Widget {
           .background()
       }
     }
-    .configurationDisplayName("My Widget")
-    .description("This is an example widget.")
+    .configurationDisplayName("Counter Widget")
+    .description("Count the Number Up")
   }
 }
 
 #Preview(as: .systemSmall){
   CounterWidget()
 } timeline: {
-  CounterEntry(date: .now, count: 0)
   CounterEntry(date: .now, count: 0)
 }

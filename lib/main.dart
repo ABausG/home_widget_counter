@@ -3,15 +3,21 @@ import 'package:home_widget/home_widget.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Set AppGroup Id. This is needed for iOS Apps to talk to their WidgetExtensions
   await HomeWidget.setAppGroupId('group.es.antonborri.homeWidgetCounter');
-  await HomeWidget.registerInteractivityCallback(backgroundCallback);
+  // Register an Interactivity Callback. It is necessary that this method is static and public
+  await HomeWidget.registerInteractivityCallback(interactiveCallback);
   runApp(const MyApp());
 }
 
+/// Callback invoked by HomeWidget Plugin when performing interactive actions
+/// The @pragma('vm:entry-point') Notification is required so that the Plugin can find it
 @pragma('vm:entry-point')
-Future<void> backgroundCallback(Uri? uri) async {
+Future<void> interactiveCallback(Uri? uri) async {
+  // Set AppGroup Id. This is needed for iOS Apps to talk to their WidgetExtensions
   await HomeWidget.setAppGroupId('group.es.antonborri.homeWidgetCounter');
 
+  // We check the host of the uri to determine which action should be triggered.
   if (uri?.host == 'increment') {
     await _increment();
   } else if (uri?.host == 'clear') {
@@ -21,6 +27,16 @@ Future<void> backgroundCallback(Uri? uri) async {
 
 const _countKey = 'counter';
 
+/// Gets the currently stored Value
+Future<int> get _value async {
+  final value = await HomeWidget.getWidgetData<int>(_countKey, defaultValue: 0);
+  return value!;
+}
+
+/// Retrieves the current stored value
+/// Increments it by one
+/// Saves that new value
+/// @returns the new saved value
 Future<int> _increment() async {
   final oldValue = await _value;
   final newValue = oldValue + 1;
@@ -28,18 +44,18 @@ Future<int> _increment() async {
   return newValue;
 }
 
+/// Clears the saved Counter Value
 Future<void> _clear() async {
   await _sendAndUpdate(null);
 }
 
+/// Stores [value] in the Widget Configuration
 Future<void> _sendAndUpdate([int? value]) async {
   await HomeWidget.saveWidgetData(_countKey, value);
-  await HomeWidget.updateWidget(iOSName: 'CounterWidget', androidName: 'CounterWidgetProvider');
-}
-
-Future<int> get _value async {
-  final value = await HomeWidget.getWidgetData<int>(_countKey, defaultValue: 0);
-  return value!;
+  await HomeWidget.updateWidget(
+    iOSName: 'CounterWidget',
+    androidName: 'CounterWidgetProvider',
+  );
 }
 
 class MyApp extends StatelessWidget {
