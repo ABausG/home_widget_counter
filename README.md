@@ -4,4 +4,4 @@ An example app using [home_widget](https://pub.dev/packages/home_widget) to buil
 
 | iOS                                                                                                               |  Android                                                                                                              |
 |-------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| <img src="https://github.com/ABausG/home_widget_counter/blob/main/.github/assets/ios.gif?raw=true" width="600px"> | <img src="https://github.com/ABausG/home_widget_counter/blob/main/.github/assets/android.gif?raw=true" width="600px"> |
+| <img src="https://github.com/ABausG/home_widget_counter/blob/main/.github/assets/ios.gif?raw=true" width="250px"> | <img src="https://github.com/ABausG/home_widget_counter/blob/main/.github/assets/android.gif?raw=true" width="250px"> |
