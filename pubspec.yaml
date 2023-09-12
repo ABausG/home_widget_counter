@@ -12,8 +12,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  home_widget:
-    path: /Users/Shared/sharedProjects/home_widget
+  home_widget: ^0.4.0-alpha.0
 
 dev_dependencies:
   flutter_test:

@@ -1,16 +1,7 @@
 # home_widget_counter
 
-"A new Flutter project."
+An example app using [home_widget](https://pub.dev/packages/home_widget) to build an interactive Flutter Counter in HomeScreen Widgets
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| iOS                                                                                                               |  Android                                                                                                              |
+|-------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| <img src="https://github.com/ABausG/home_widget_counter/blob/main/.github/assets/ios.gif?raw=true" width="600px"> | <img src="https://github.com/ABausG/home_widget_counter/blob/main/.github/assets/android.gif?raw=true" width="600px"> |

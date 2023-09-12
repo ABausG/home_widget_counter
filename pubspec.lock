@@ -86,9 +86,10 @@ packages:
   home_widget:
     dependency: "direct main"
     description:
-      path: "/Users/Shared/sharedProjects/home_widget"
-      relative: false
-    source: path
+      name: home_widget
+      sha256: a9ae6c5417213bb7e2533ba0a0731e683e2b7bda07069a5e3e057d2f64cc1f50
+      url: "https://pub.dev"
+    source: hosted
     version: "0.4.0-alpha.0"
   lints:
     dependency: transitive
