@@ -37,27 +37,39 @@ struct CounterEntry: TimelineEntry {
 struct CounterWidgetEntryView: View {
   var entry: Provider.Entry
 
-  var body: some View {
-    VStack {
-      Text("You have pushed the button this many times:").font(.caption2).frame(
-        maxWidth: .infinity, alignment: .center)
-      Spacer()
-      Text(entry.count.description).font(.title).frame(maxWidth: .infinity, alignment: .center)
-      Spacer()
-      HStack {
-        // This button is for clearing
-        Button(intent: BackgroundIntent(method: "clear")) {
-          Image(systemName: "xmark").font(.system(size: 16)).foregroundColor(.red).frame(
-            width: 24, height: 24)
-        }.buttonStyle(.plain).frame(alignment: .leading)
-        Spacer()
-        // This button is for incrementing
-        Button(intent: BackgroundIntent(method: "increment")) {
-          Image(systemName: "plus").font(.system(size: 16)).foregroundColor(.white)
+  @Environment(\.widgetFamily) var family
 
-        }.frame(width: 24, height: 24)
-          .background(.blue)
-          .cornerRadius(12).frame(alignment: .trailing)
+  var body: some View {
+    if family == .accessoryCircular {
+      Image(
+        uiImage: UIImage(
+          contentsOfFile: UserDefaults(suiteName: "group.es.antonborri.homeWidgetCounter")?.string(
+            forKey: "dash_counter") ?? "")!
+      ).resizable()
+        .frame(width: 76, height: 76)
+        .scaledToFill()
+    } else {
+      VStack {
+        Text("You have pushed the button this many times:").font(.caption2).frame(
+          maxWidth: .infinity, alignment: .center)
+        Spacer()
+        Text(entry.count.description).font(.title).frame(maxWidth: .infinity, alignment: .center)
+        Spacer()
+        HStack {
+          // This button is for clearing
+          Button(intent: BackgroundIntent(method: "clear")) {
+            Image(systemName: "xmark").font(.system(size: 16)).foregroundColor(.red).frame(
+              width: 24, height: 24)
+          }.buttonStyle(.plain).frame(alignment: .leading)
+          Spacer()
+          // This button is for incrementing
+          Button(intent: BackgroundIntent(method: "increment")) {
+            Image(systemName: "plus").font(.system(size: 16)).foregroundColor(.white)
+
+          }.frame(width: 24, height: 24)
+            .background(.blue)
+            .cornerRadius(12).frame(alignment: .trailing)
+        }
       }
     }
   }
@@ -79,6 +91,9 @@ struct CounterWidget: Widget {
     }
     .configurationDisplayName("Counter Widget")
     .description("Count the Number Up")
+    .supportedFamilies([
+      .systemSmall, .systemMedium, .systemLarge, .systemExtraLarge, .accessoryCircular,
+    ])
   }
 }
 

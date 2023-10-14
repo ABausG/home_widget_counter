@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:home_widget_counter/dash_with_sign.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +53,11 @@ Future<void> _clear() async {
 /// Stores [value] in the Widget Configuration
 Future<void> _sendAndUpdate([int? value]) async {
   await HomeWidget.saveWidgetData(_countKey, value);
+  await HomeWidget.renderFlutterWidget(
+    DashWithSign(count: value ?? 0),
+    key: 'dash_counter',
+    logicalSize: const Size(100, 100),
+  );
   await HomeWidget.updateWidget(
     iOSName: 'CounterWidget',
     androidName: 'CounterWidgetProvider',
@@ -121,9 +127,14 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
             ),
             FutureBuilder<int>(
               future: _value,
-              builder: (_, snapshot) => Text(
-                (snapshot.data ?? 0).toString(),
-                style: Theme.of(context).textTheme.headlineMedium,
+              builder: (_, snapshot) => Column(
+                children: [
+                  Text(
+                    (snapshot.data ?? 0).toString(),
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  DashWithSign(count: snapshot.data ?? 0)
+                ],
               ),
             ),
             TextButton(
