@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:home_widget_counter/dash_with_sign.dart';
@@ -62,6 +64,11 @@ Future<void> _sendAndUpdate([int? value]) async {
     iOSName: 'CounterWidget',
     androidName: 'CounterWidgetProvider',
   );
+
+  if (Platform.isAndroid) {
+    // Update Glance Provider
+    await HomeWidget.updateWidget(androidName: 'CounterGlanceWidgetReceiver');
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -114,6 +121,22 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  Future<void> _requestToPinWidget() async {
+    final isRequestPinSupported =
+        await HomeWidget.isRequestPinWidgetSupported();
+    if (isRequestPinSupported == true) {
+      await HomeWidget.requestPinWidget(
+        androidName: 'CounterGlanceWidgetReceiver',
+      );
+    }
+  }
+
+  Future<void> _checkInstalledWidgets() async {
+    final installedWidgets = await HomeWidget.getInstalledWidgets();
+
+    debugPrint(installedWidgets.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,7 +156,11 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                     (snapshot.data ?? 0).toString(),
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
-                  DashWithSign(count: snapshot.data ?? 0)
+                  GestureDetector(
+                    onTap: _requestToPinWidget,
+                    onLongPress: _checkInstalledWidgets,
+                    child: DashWithSign(count: snapshot.data ?? 0),
+                  ),
                 ],
               ),
             ),
